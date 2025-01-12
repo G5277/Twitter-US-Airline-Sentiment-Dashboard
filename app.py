@@ -15,7 +15,7 @@ def main():
 
     @st.cache_data(persist = True)
     def load_data():
-        data = pd.read_csv("tweets.csv")
+        data = pd.read_csv("Tweets.csv")
         data["tweets_created"] = pd.to_datetime(data["tweet_created"])
         return data
     
