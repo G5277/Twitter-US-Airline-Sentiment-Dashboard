@@ -6,6 +6,17 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from wordcloud import WordCloud, STOPWORDS
 
+# custom css
+background_color = """
+<style>
+
+[data-testid="stAppViewContainer"] {
+    background-color: #120128; /* Background color set to blue */
+
+
+</style>
+"""
+st.markdown(background_color, unsafe_allow_html=True)
 
 def main():
     st.title("Sentiment Analysis on Tweets about US Airlines")
@@ -22,12 +33,17 @@ def main():
     
     data = load_data()
 
+    st.markdown("---")
+
     # Show random tweet
     st.sidebar.subheader("Show Random Tweet")
     random_tweet = st.sidebar.radio("Sentiment", ("positive", "neutral", "negative"))
     if not st.sidebar.checkbox("Hide", True, key = '0'):
         st.subheader(f"Random {random_tweet.capitalize()} Tweet")
         st.header(data.query("airline_sentiment == @random_tweet")[["text"]].sample(n=1).iat[0,0])
+        st.markdown("---")
+
+
 
     # Number of tweets by sentiment
     st.sidebar.subheader("Number of Tweets by Sentiment")
@@ -66,6 +82,8 @@ def main():
         # Ensure selected_data has latitude and longitude columns
         st.map(selected_data[['latitude', 'longitude']])
 
+    st.markdown("---")
+    
     # Number of tweets for each airline
     st.sidebar.subheader("Tweet of tweets for each Airline")
     each_airline = st.sidebar.selectbox("Visualization Type", ["Bar Plot", "Pie Chart"], key = "3")
@@ -81,16 +99,22 @@ def main():
             fig = px.pie(airline_sentiment_count, values = "Tweets", names = "Airline")
             st.plotly_chart(fig)
 
+    st.markdown("---")
+
     # Breakdown airline tweets by sentiment
     st.sidebar.subheader("Breakdown Airline Tweets by Sentiment")
     choice = st.sidebar.multiselect("Pick Airline(s)", tuple(pd.unique(data["airline"])))
-    if not st.sidebar.checkbox("Hide", False, key = "5"):
+    if not st.sidebar.checkbox("Hide", True, key = "5"):
         if len(choice) > 0:
+            st.header("Breakdown Airline Tweets by Sentiment")
             chosen_data = data[data["airline"].isin(choice)]
             fig = px.histogram(chosen_data, x = "airline", y = "airline_sentiment", histfunc="count", 
                                color = "airline_sentiment", facet_col="airline_sentiment",
                                labels = {"airline_sentiment" : "sentiment"})
             st.plotly_chart(fig)
+            st.markdown("---")
+
+
 
     # World Cloud
     st.sidebar.subheader("Word Cloud")
@@ -114,6 +138,19 @@ def main():
 
         st.pyplot(fig)
 
+    st.markdown("---")
+
+    st.markdown(
+        """
+        <div style="text-align: center; font-size: 16px;">
+            This app was created with love by 
+            <a href="https://github.com/G5277" target="_blank" style="text-decoration: none; color: #ff4b4b;">
+                Gazal &#10084
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 if __name__ == "__main__":
     main()
