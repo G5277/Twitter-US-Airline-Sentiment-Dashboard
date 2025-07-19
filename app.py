@@ -6,6 +6,14 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from wordcloud import WordCloud, STOPWORDS
 
+# setting up config
+st.set_page_config(
+    page_title="US Airline Sentiment 📊",
+    page_icon="✈️", 
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 # custom css
 background_color = """
 <style>
@@ -17,12 +25,6 @@ background_color = """
 </style>
 """
 st.markdown(background_color, unsafe_allow_html=True)
-st.set_page_config(
-    page_title="US Airline Sentiment 📊",
-    page_icon="✈️", 
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
 
 def main():
     st.title("Sentiment Analysis on Tweets about US Airlines")
