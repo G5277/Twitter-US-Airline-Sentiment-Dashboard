@@ -19,7 +19,7 @@ background_color = """
 st.markdown(background_color, unsafe_allow_html=True)
 st.set_page_config(
     page_title="US Airline Sentiment 📊",
-    page_icon="✈️",  # You can use emoji or upload a favicon
+    page_icon="✈️", 
     layout="wide",
     initial_sidebar_state="expanded"
 )
